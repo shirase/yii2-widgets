@@ -1,12 +1,12 @@
 <?php
 
-namespace shirase\widgets;
+namespace shirase\form;
 
 use Yii;
 
 /**
  * Class ActiveForm
- * @package shirase\widgets
+ * @package shirase\form
  */
 class ActiveForm extends \yii\widgets\ActiveForm {
 
