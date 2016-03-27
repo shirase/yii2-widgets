@@ -1,12 +1,12 @@
 {
-    "name": "shirase/yii2-widgets",
+    "name": "shirase/yii2-widgets-activeform",
     "type": "yii2-extension",
     "require": {
         "php": ">=5.4.0"
     },
     "autoload": {
         "psr-4": {
-            "shirase\\widgets\\": ""
+            "shirase\\activeform\\": ""
         }
     }
 }
