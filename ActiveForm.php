@@ -8,7 +8,7 @@ use Yii;
  * Class ActiveForm
  * @package shirase\form
  */
-class ActiveForm extends \yii\widgets\ActiveForm {
+class ActiveForm extends \kartik\widgets\ActiveForm {
 
     public function field($model, $attribute, $options = [])
     {
