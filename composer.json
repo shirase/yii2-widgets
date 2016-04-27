@@ -1,5 +1,5 @@
 {
-    "name": "shirase/yii2-widgets-activeform",
+    "name": "shirase55/yii2-widgets-activeform",
     "type": "yii2-extension",
     "require": {
         "php": ">=5.4.0"
