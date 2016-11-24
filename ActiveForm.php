@@ -13,7 +13,17 @@ class ActiveForm extends \kartik\widgets\ActiveForm {
 
     public function field($model, $attribute, $options = [])
     {
-        $path = explode('[', str_replace(']', '', $attribute));
+        if(strpos($attribute, ']')!==false) {
+            if ($attribute[strlen($attribute)-1]==']') {
+                // relation[relation_attribute]
+                $path = explode('[', str_replace(']', '', $attribute));
+            } else {
+                // [group]attribute
+                $path = [substr($attribute, strrpos($attribute, ']')+1)];
+            }
+        } else {
+            $path = [$attribute];
+        }
 
         /**
          * @var $last \yii\db\ActiveRecord
