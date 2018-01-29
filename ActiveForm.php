@@ -3,7 +3,9 @@
 namespace shirase\form;
 
 use Yii;
+use yii\base\Model;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * Class ActiveForm
@@ -26,21 +28,37 @@ class ActiveForm extends \kartik\widgets\ActiveForm {
         }
 
         /**
-         * @var $last \yii\db\ActiveRecord
+         * @var $last ActiveRecord|Model
          */
-        $last = null;
+        $last = $model;
         $prevAttr = null;
         foreach($path as $attr) {
-            if ($last) {
-                $relation = $last->getRelation($prevAttr, false);
-                if ($relation instanceof ActiveQuery) {
-                    $modelClass = $relation->modelClass;
-                    $last = new $modelClass();
-                } else {
+            if (!$attr)
+                continue;
+
+            if ($prevAttr) {
+                $relationFound = false;
+
+                if ($last instanceof ActiveRecord) {
+                    $relation = $last->getRelation($prevAttr, false);
+                    if ($relation instanceof ActiveQuery) {
+                        $relationFound = true;
+                        $modelClass = $relation->modelClass;
+                        $last = new $modelClass();
+                    }
+                }
+
+                if (!$relationFound) {
+                    if (!isset($last->{$prevAttr})) {
+                        break;
+                    }
+
                     $last = $last->{$prevAttr};
                 }
-            } else {
-                $last = $model;
+
+                if (!($last instanceof Model)) {
+                    break;
+                }
             }
 
             if (!$last->isAttributeActive($attr)) {
@@ -51,10 +69,11 @@ class ActiveForm extends \kartik\widgets\ActiveForm {
                     'form' => $this,
                 ]);
             }
+
             $prevAttr = $attr;
         }
 
-        if (sizeof($path)>1 && !isset($options['labelOptions']['label'])) {
+        if ($last instanceof Model && sizeof($path)>1 && !isset($options['labelOptions']['label'])) {
             $options['labelOptions']['label'] = $last->getAttributeLabel($path[sizeof($path)-1]);
         }
 
