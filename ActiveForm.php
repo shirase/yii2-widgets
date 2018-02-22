@@ -61,7 +61,7 @@ class ActiveForm extends \kartik\widgets\ActiveForm {
                 }
             }
 
-            if (!$last->isAttributeActive($attr)) {
+            if ($last && method_exists($last, 'isAttributeActive') && !$last->isAttributeActive($attr)) {
                 return Yii::createObject([
                     'class' => 'shirase\form\FakeActiveField',
                     'model' => $model,
